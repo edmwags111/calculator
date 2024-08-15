@@ -57,6 +57,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  double result = 0;
+  int a = 0;
+  int b = 0;
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -66,6 +70,34 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       _counter++;
     });
+  }
+
+  void calculate(String operation) {
+    switch (operation) {
+      case '+':
+        setState(() {
+          result = a.toDouble() + b.toDouble();
+        });
+        break;
+      case '-':
+        setState(() {
+          result = a.toDouble() - b.toDouble();
+        });
+        break;
+      case '*':
+        setState(() {
+          result = a.toDouble() * b.toDouble();
+        });
+
+        break;
+      case '/':
+        setState(() {
+          result = a.toDouble() / b.toDouble();
+        });
+        break;
+      default:
+        result = 0;
+    }
   }
 
   @override
@@ -107,28 +139,38 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
                   width: 100,
                   height: 100,
                   child: TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                     ),
+                    onChanged: (value) {
+                      setState(() {
+                        a = int.tryParse(value) ?? 0;
+                      });
+                    },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 50,
                 ),
                 SizedBox(
                   width: 100,
                   height: 100,
                   child: TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                     ),
+                    onChanged: (value) {
+                      setState(() {
+                        b = int.tryParse(value) ?? 0;
+                      });
+                    },
                   ),
                 ),
               ],
@@ -140,34 +182,42 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    calculate('+');
+                  },
                   child: const Text('+'),
                 ),
                 const SizedBox(
                   width: 10,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    calculate('-');
+                  },
                   child: const Text('-'),
                 ),
                 const SizedBox(
                   width: 10,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    calculate('*');
+                  },
                   child: const Text('*'),
                 ),
                 const SizedBox(
                   width: 10,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    calculate('/');
+                  },
                   child: const Text('/'),
                 ),
               ],
             ),
             Text(
-              '$_counter',
+              'Result: $result',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
